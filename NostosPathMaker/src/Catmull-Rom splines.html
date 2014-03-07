@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="Catmull-Rom%20splines_files/bmi.js" language="javascript"></script>
+  
+    <title>Catmull-Rom splines</title>
+  </head>
+
+  <body>
+      <h1>Catmull-Rom splines</h1>
+      This applet shows cubic Catmull-Rom splines defined by a sequence of
+      control points.
+      <p>
+	You can move a control point by dragging it with the mouse,
+	add a new one by clicking the mouse, and delete one by holding
+	down the Shift key while clicking on it.
+      </p><p>
+<applet code="Catmull-Rom%20splines_files/SplineApplet.class" height="300" width="400">
+<param name="bgcolor" value="ffffff">
+<param name="basis" value="CatmullRom">
+<param name="controlPoints" value="33 189 54 39 182 42 249 113">
+</applet>
+      </p><p>
+	Controls 0123 define a cubic curve going from 1 to 2.
+        Controls 1234 define a curve going from 2 to 3 and so on 
+        The tangent to both curves at 2 is parallel to the line
+	joining 1 to 3.
+      </p><p>
+
+	Unlike a <a href="http://www.cse.unsw.edu.au/%7Elambert/splines/natcubic.html">natural cubic spline</a>, a 
+	Catmull-Rom 
+	spline has <em>local control</em>.  This means that modifying
+	one control point only affects the part of the curve near that
+	control point.
+      </p><hr>
+      <a href="http://www.cse.unsw.edu.au/%7Elambert/splines/">Contents</a>
+      <hr>
+      <address>lambert@cse.unsw.edu.au</address>
+<!-- Created: Thu Oct 31 01:58:40 EST 1996 -->
+<!-- hhmts start -->
+Last modified: Fri Nov  1 00:04:03 MET 
+<!-- hhmts end -->
+  
+
+<script language="javascript"><!--//bmi_orig_img 0 //
+-->
+</script></body></html>
