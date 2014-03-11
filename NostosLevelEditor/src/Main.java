@@ -78,6 +78,7 @@ class MainPanel extends JLayeredPane{
 		
 		viewPanel.setLayout(new BorderLayout());
 		viewPanel.setPreferredSize(dView);
+		viewPanel.setBackground(Color.white);
 		toolPanel.setSize(dTool);
 		
 		drawPanel.setSize(dDraw);
@@ -101,7 +102,7 @@ class MainPanel extends JLayeredPane{
 	
 	private void setupToolBar(){
 		
-		imageAddEnemy = new ImageIcon("Image/image.png");
+		imageAddEnemy = new ImageIcon("Image/bugs_maggot.png");
 		toolPanel.setLayout( new GridLayout(10,1,10,10) );
 		button1 = new JButton("Open Level");
 		button2 = new JButton("Open Level");
