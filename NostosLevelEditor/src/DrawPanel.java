@@ -1,9 +1,12 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +28,9 @@ public class DrawPanel extends JPanel implements MouseListener,
 	boolean MOUSEUP;
 	private int selected;
 	private boolean DRAGGING;
+	public int originalHeight;
+	public int originalWidth;
+	public double scale = 1.0;
 
 	public DrawPanel() {
 
@@ -33,43 +39,41 @@ public class DrawPanel extends JPanel implements MouseListener,
 
 		icons = new ArrayList<LevelItem>();
 
-		this.setBackground(Color.black);
+		this.setBackground(Color.gray);
+		this.getSize().height = originalHeight;
+		this.getSize().width = originalWidth;
 
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-
-		setBackground(Color.black);
-		if (offscreen == null)
-			offscreen = createImage(this.HEIGHT, this.WIDTH);
-
-		Graphics of = offscreen.getGraphics();
-
-		g.setColor(Color.green);
+		
+		AffineTransform trans = new AffineTransform();
+		trans.scale(scale, scale);
+		
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setTransform(trans);
+		g2d.fillRect(0, 0, 100, 100);
+		g2d.setColor(Color.green);
+		
 		for (int i = 0; i < icons.size(); i++) {
 			LevelItem temp = icons.get(i);
 			if(i == selected)
-				g.fillOval(temp.posx, temp.posy, temp.width, temp.height);
-			
-			
+				g2d.fillOval(temp.posx, temp.posy, temp.width, temp.height);
 
-			g.drawImage(temp.img, temp.posx, temp.posy, temp.width,
-					temp.height, null);
-			g.setColor(Color.green);
+			g2d.drawImage(temp.img, temp.posx, temp.posy, temp.width, temp.height, null);
+			g2d.setColor(Color.green);
 			
-			g.fillOval(temp.realx - 10 , temp.realy - 10, 20, 20);
+			g2d.fillOval(temp.realx - 10 , temp.realy - 10, 20, 20);
 			
 		}
-
-		// g.drawImage(offscreen, 0, 0, null);
+	
 	}
 
 	@Override
 	public void update(Graphics g) {
 		super.update(g);
-
 		paint(g);
 
 	}
@@ -127,7 +131,6 @@ public class DrawPanel extends JPanel implements MouseListener,
 			selected = icons.size() - 1;
 		}
 		DRAGGING = true;
-
 		MOUSEDOWN = true;
 
 		repaint();

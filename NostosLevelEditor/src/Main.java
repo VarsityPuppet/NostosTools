@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -39,7 +42,7 @@ public class Main {
 	}
 }
 
-class MainPanel extends JLayeredPane{
+class MainPanel extends JLayeredPane implements ChangeListener{
 	
 	private static final int TOOLPANELWIDTH = 150;
 	private static final int SCROLLPANEWIDTH = 800;
@@ -65,8 +68,9 @@ class MainPanel extends JLayeredPane{
 	private JLabel jlbSelected;
 	private JLabel jlbLevel;
 	private ImageIcon imageAddEnemy;
+	private JSlider sliderBar;
 
-	public MainPanel(){
+	public MainPanel() {
 		
 		this.setLayout(new BorderLayout());
 		
@@ -78,11 +82,10 @@ class MainPanel extends JLayeredPane{
 		
 		viewPanel.setLayout(new BorderLayout());
 		viewPanel.setPreferredSize(dView);
-		viewPanel.setBackground(Color.white);
+		viewPanel.setBackground(Color.LIGHT_GRAY);
 		toolPanel.setSize(dTool);
 		
 		drawPanel.setSize(dDraw);
-		drawPanel.setBackground(Color.black);
 	
 		viewPanel.setBorder(border);
 		viewPanel.add(drawPanel, BorderLayout.CENTER);
@@ -92,7 +95,13 @@ class MainPanel extends JLayeredPane{
 		
 		toolPanel.setBackground(Color.gray);
 		
+		sliderBar = new JSlider(20, 100, 100);
+		
+		sliderBar.addChangeListener(this);
+		
 		setupToolBar();
+		
+		this.add(sliderBar, BorderLayout.SOUTH);
 		
 		this.add(toolPanel, BorderLayout.WEST);
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -131,5 +140,19 @@ class MainPanel extends JLayeredPane{
 		toolPanel.add(jAIName);
 		
 		
+	}
+
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO Auto-generated method stub
+		double scale = (double)(sliderBar.getValue()/(double)(sliderBar.getMaximum()));
+		drawPanel.scale = scale;
+	
+		//drawPanel.setSize((int)(drawPanel.originalHeight*scale), (int)(drawPanel.originalWidth*scale));
+		
+		drawPanel.repaint();
+		
+		System.out.printf(" Scale is %f", drawPanel.scale);
 	}
 }
