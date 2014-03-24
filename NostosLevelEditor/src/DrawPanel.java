@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class DrawPanel extends JPanel implements MouseListener,
 	public int originalHeight;
 	public int originalWidth;
 	public double scale = 1.0;
+	protected int currentWidth;
+	protected int currentHeight;
 
 	public DrawPanel(Dimension d) {
 
@@ -43,6 +46,8 @@ public class DrawPanel extends JPanel implements MouseListener,
 		
 		originalHeight = d.height;
 		originalWidth = d.width;
+		currentHeight = originalHeight;
+		currentWidth = originalWidth;
 
 		offscreen = createImage(originalWidth, originalHeight);
 		
@@ -52,8 +57,8 @@ public class DrawPanel extends JPanel implements MouseListener,
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		if(offscreen == null)
-			offscreen = createImage(originalWidth, originalHeight);
+		//if(offscreen == null)
+			offscreen = createImage(currentWidth, currentHeight);
 		
 		offscreen.getGraphics().clearRect(0, 0, originalWidth, originalHeight);
 		
@@ -78,7 +83,7 @@ public class DrawPanel extends JPanel implements MouseListener,
 			
 		}
 	
-		g.drawImage(offscreen,  0,  0, null);//, dx2, dy2, sx1, sy1, sx2, sy2, observer)
+		g.drawImage(offscreen,  originalWidth/2 - currentWidth/2,  0, null);// currentWidth, currentHeight,Color.white, null);//, dx2, dy2, sx1, sy1, sx2, sy2, observer)
 	}
 
 	@Override
@@ -178,5 +183,18 @@ public class DrawPanel extends JPanel implements MouseListener,
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println("Mouse has moved!");
+	}
+
+	public void scale(double scale2) {
+		// TODO Auto-generated method stub
+		this.scale = scale2;
+		
+		//viewPanel.setSize(viewPanel.getWidth(), (int) (DRAWPANELHEIGHT*scale) );
+		currentHeight = (int) (originalHeight*scale2);
+		currentWidth = (int) (originalWidth*scale2);
+		
+		System.out.printf("\ncurrentHeight: %d currentWidth: %d", currentHeight, currentWidth);
+		
+		repaint();
 	}
 }

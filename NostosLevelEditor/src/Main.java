@@ -53,11 +53,11 @@ class MainPanel extends JLayeredPane implements ChangeListener{
 	private static final Dimension dView = new Dimension(SCROLLPANEWIDTH, DRAWPANELHEIGHT);
 	private static final Dimension dScroll = new Dimension(SCROLLPANEWIDTH, FRAMEHEIGHT);
 	private JPanel toolPanel;
-	private JPanel viewPanel;
+	private ViewPanel viewPanel;
 	private JScrollPane scrollPane;
 	private JButton button1;
 	private DrawPanel drawPanel;
-	private Border border;
+
 	private JComboBox comboBox;
 	private JTextField jLevelName;
 	private JButton button2;
@@ -74,21 +74,10 @@ class MainPanel extends JLayeredPane implements ChangeListener{
 		
 		this.setLayout(new BorderLayout());
 		
-
-		drawPanel = new DrawPanel(dDraw);
 		toolPanel = new JPanel();
-		viewPanel = new JPanel();
-		border = BorderFactory.createEmptyBorder(50, 50, 50, 50);
-		
-		viewPanel.setLayout(new BorderLayout());
-		viewPanel.setPreferredSize(dView);
-		viewPanel.setBackground(Color.LIGHT_GRAY);
+		viewPanel = new ViewPanel(dView);
+
 		toolPanel.setSize(dTool);
-		
-		drawPanel.setSize(dDraw);
-	
-		viewPanel.setBorder(border);
-		viewPanel.add(drawPanel, BorderLayout.CENTER);
 		
 		scrollPane = new JScrollPane(viewPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setSize(dScroll);
@@ -147,12 +136,9 @@ class MainPanel extends JLayeredPane implements ChangeListener{
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
 		double scale = (double)(sliderBar.getValue()/(double)(sliderBar.getMaximum()));
-		drawPanel.scale = scale;
-	
-		viewPanel.setSize(viewPanel.getWidth(), (int) (DRAWPANELHEIGHT*scale) );
+
 		
-		drawPanel.repaint();
+		viewPanel.scale(scale);
 		
-		System.out.printf(" Scale is %f", drawPanel.scale);
 	}
 }
