@@ -75,7 +75,7 @@ class MainPanel extends JLayeredPane implements ChangeListener{
 		this.setLayout(new BorderLayout());
 		
 
-		drawPanel = new DrawPanel();
+		drawPanel = new DrawPanel(dDraw);
 		toolPanel = new JPanel();
 		viewPanel = new JPanel();
 		border = BorderFactory.createEmptyBorder(50, 50, 50, 50);
@@ -149,7 +149,7 @@ class MainPanel extends JLayeredPane implements ChangeListener{
 		double scale = (double)(sliderBar.getValue()/(double)(sliderBar.getMaximum()));
 		drawPanel.scale = scale;
 	
-		//drawPanel.setSize((int)(drawPanel.originalHeight*scale), (int)(drawPanel.originalWidth*scale));
+		viewPanel.setSize(viewPanel.getWidth(), (int) (DRAWPANELHEIGHT*scale) );
 		
 		drawPanel.repaint();
 		

@@ -32,29 +32,38 @@ public class DrawPanel extends JPanel implements MouseListener,
 	public int originalWidth;
 	public double scale = 1.0;
 
-	public DrawPanel() {
+	public DrawPanel(Dimension d) {
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
 		icons = new ArrayList<LevelItem>();
 
-		this.setBackground(Color.gray);
-		this.getSize().height = originalHeight;
-		this.getSize().width = originalWidth;
+		this.setBackground(Color.lightGray);
+		
+		originalHeight = d.height;
+		originalWidth = d.width;
 
+		offscreen = createImage(originalWidth, originalHeight);
+		
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		
+		if(offscreen == null)
+			offscreen = createImage(originalWidth, originalHeight);
+		
+		offscreen.getGraphics().clearRect(0, 0, originalWidth, originalHeight);
+		
 		AffineTransform trans = new AffineTransform();
 		trans.scale(scale, scale);
 		
-		Graphics2D g2d = (Graphics2D)g;
+		Graphics2D g2d = (Graphics2D)offscreen.getGraphics();
 		g2d.setTransform(trans);
-		g2d.fillRect(0, 0, 100, 100);
+		g2d.setColor(Color.gray);
+		g2d.fillRect(0, 0, originalWidth, originalHeight);
 		g2d.setColor(Color.green);
 		
 		for (int i = 0; i < icons.size(); i++) {
@@ -69,6 +78,7 @@ public class DrawPanel extends JPanel implements MouseListener,
 			
 		}
 	
+		g.drawImage(offscreen,  0,  0, null);//, dx2, dy2, sx1, sy1, sx2, sy2, observer)
 	}
 
 	@Override
