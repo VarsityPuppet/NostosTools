@@ -55,18 +55,18 @@ public class DrawPanel extends JPanel implements MouseListener,
 
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
+		//super.paint(g);
 		
-		//if(offscreen == null)
+		if(offscreen == null)
 			offscreen = createImage(currentWidth, currentHeight);
 		
 		offscreen.getGraphics().clearRect(0, 0, originalWidth, originalHeight);
 		
-		AffineTransform trans = new AffineTransform();
-		trans.scale(scale, scale);
-		
+//		AffineTransform trans = new AffineTransform();
+//		trans.scale(scale, scale);
+//		
 		Graphics2D g2d = (Graphics2D)offscreen.getGraphics();
-		g2d.setTransform(trans);
+		//g2d.setTransform(trans);
 		g2d.setColor(Color.gray);
 		g2d.fillRect(0, 0, originalWidth, originalHeight);
 		g2d.setColor(Color.green);
@@ -83,7 +83,7 @@ public class DrawPanel extends JPanel implements MouseListener,
 			
 		}
 	
-		g.drawImage(offscreen,  originalWidth/2 - currentWidth/2,  0, null);// currentWidth, currentHeight,Color.white, null);//, dx2, dy2, sx1, sy1, sx2, sy2, observer)
+		g.drawImage(offscreen,  originalWidth/2 - currentWidth/2,  0, currentWidth, currentHeight,Color.white, null);//, dx2, dy2, sx1, sy1, sx2, sy2, observer)
 	}
 
 	@Override
