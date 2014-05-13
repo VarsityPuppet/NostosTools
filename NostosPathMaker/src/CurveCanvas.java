@@ -121,11 +121,12 @@ public class CurveCanvas extends Canvas implements Runnable, MouseListener, Mous
 	@Override
 	public void mousePressed(java.awt.event.MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (curve.selectKeyPoint(e.getX(), e.getY()) == -1){
-			if(kPressed)
+		
+		//Create Key
+		if(kPressed && curve.selectKeyPoint(e.getX(), e.getY()) == -1){
 				curve.addKeyPoint(e.getX(), e.getY());
 		}
-		if (curve.selectPoint(e.getX(), e.getY()) == -1 &&
+		if (!kPressed && curve.selectPoint(e.getX(), e.getY()) == -1 &&
 				curve.selectKeyPoint(e.getX(), e.getY()) == -1)
 			curve.addPoint(e.getX(), e.getY());
 
@@ -143,9 +144,9 @@ public class CurveCanvas extends Canvas implements Runnable, MouseListener, Mous
 	@Override
 	public void mouseDragged(java.awt.event.MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(curve.selectKeyPoint(e.getX(), e.getY()) == -1)
+		//if(curve.selectKeyPoint(e.getX(), e.getY()) == -1)
 			curve.setPoint(e.getX(), e.getY());
-		else if(curve.selectPoint(e.getX(), e.getY()) == -1)
+		//else if(curve.selectPoint(e.getX(), e.getY()) == -1)
 			curve.setKeyPoint(e.getX(), e.getY());
 		update();
 	}

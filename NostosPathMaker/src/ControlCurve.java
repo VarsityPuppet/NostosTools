@@ -99,17 +99,17 @@ public class ControlCurve {
 	
 	private int getClosest(int x, int y){
 		
-		keySelection = -1;
+		int index = -1;
 		int closest = 1000;
 		for (int i = 0; i < pol.npoints; i++) {
 			int d = (int) Math.sqrt(Math.pow(pol.xpoints[i] - x, 2)
 					+ Math.pow(pol.ypoints[i] - y, 2));
 			if (d < closest) {
 				closest = d;
-				keySelection = i;
+				index = i;
 			}
 		}
-		return keySelection;
+		return index;
 	}
 
 	/** set selected control point */
