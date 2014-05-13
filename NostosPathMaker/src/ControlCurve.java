@@ -4,10 +4,14 @@ import java.awt.*;
 public class ControlCurve {
 
 	protected Polygon pts;
+	protected Polygon keypts;
+	public Polygon pol;
 	protected int selection = -1;
+	private int keySelection = -1;
 
 	public ControlCurve() {
 		pts = new Polygon();
+		keypts = new Polygon();
 	}
 
 	static Font f = new Font("Courier", Font.PLAIN, 12);
@@ -28,6 +32,14 @@ public class ControlCurve {
 			g.fillOval(pts.xpoints[i] - 10, pts.ypoints[i] - 10, 20, 20);
 			g.setColor(Color.WHITE);
 		}
+
+		g.setColor(Color.GREEN);
+		for (int i = 0; i < keypts.npoints; i++) {
+			
+			g.fillOval(keypts.xpoints[i] - 5, keypts.ypoints[i] - 5, 10, 10);
+		}
+
+		g.setColor(Color.WHITE);
 	}
 
 	static final int EPSILON = 15; /* square of distance for picking */
@@ -37,7 +49,8 @@ public class ControlCurve {
 		selection = -1;
 		int closest = EPSILON;
 		for (int i = 0; i < pts.npoints; i++) {
-			int d = (int) Math.sqrt(Math.pow(pts.xpoints[i]-x,2) + Math.pow(pts.ypoints[i] - y,2) );
+			int d = (int) Math.sqrt(Math.pow(pts.xpoints[i] - x, 2)
+					+ Math.pow(pts.ypoints[i] - y, 2));
 			if (d < EPSILON && d < closest) {
 				closest = d;
 				selection = i;
@@ -57,11 +70,61 @@ public class ControlCurve {
 		return selection = pts.npoints - 1;
 	}
 
+	public int addKeyPoint(int x, int y) {
+		int selection = getClosest(x,y);
+
+		int newX = pol.xpoints[selection];
+		int newY = pol.ypoints[selection];
+
+		keypts.addPoint(newX, newY);
+
+		return keypts.npoints-1;
+	}
+
+	public int selectKeyPoint(int x, int y) {
+
+		keySelection = -1;
+		int closest = 15;
+		for (int i = 0; i < keypts.npoints; i++) {
+			int d = (int) Math.sqrt(Math.pow(keypts.xpoints[i] - x, 2)
+					+ Math.pow(keypts.ypoints[i] - y, 2));
+			if (d < 15 && d < closest) {
+				closest = d;
+				keySelection = i;
+			}
+		}
+		return keySelection;
+
+	}
+	
+	private int getClosest(int x, int y){
+		
+		keySelection = -1;
+		int closest = 1000;
+		for (int i = 0; i < pol.npoints; i++) {
+			int d = (int) Math.sqrt(Math.pow(pol.xpoints[i] - x, 2)
+					+ Math.pow(pol.ypoints[i] - y, 2));
+			if (d < closest) {
+				closest = d;
+				keySelection = i;
+			}
+		}
+		return keySelection;
+	}
+
 	/** set selected control point */
 	public void setPoint(int x, int y) {
 		if (selection >= 0) {
 			pts.xpoints[selection] = x;
 			pts.ypoints[selection] = y;
+		}
+	}
+	
+	public void setKeyPoint(int x, int y) {
+		if (keySelection >= 0) {
+			int index = getClosest(x,y);
+			keypts.xpoints[keySelection] = pol.xpoints[index];
+			keypts.ypoints[keySelection] = pol.ypoints[index];
 		}
 	}
 

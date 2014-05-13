@@ -29,6 +29,7 @@ public class Bspline extends ControlCurve {
   }
 
   final int STEPS = 60;
+  
 
   public void paint(Graphics g) {
     
@@ -36,7 +37,7 @@ public class Bspline extends ControlCurve {
     
     Graphics2D g2 = (Graphics2D) g;
     g2.setStroke(new BasicStroke(5));
-    Polygon pol = new Polygon ();
+    pol = new Polygon ();
     Point q = p(2,0);
     pol.addPoint(q.x,q.y);
     for (int i = 2; i < pts.npoints-1; i++) {
